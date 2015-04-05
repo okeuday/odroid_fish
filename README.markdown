@@ -44,6 +44,9 @@ The internal time kept within the fish's JSON data is reset before the send
 to a remote node, since it is assumed that there is no clock synchronization
 in-place.
 
+Example
+-------
+
 ![](https://raw.githubusercontent.com/okeuday/odroid_fish/master/fishbowl.gif)
 
 Author
