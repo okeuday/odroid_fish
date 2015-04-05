@@ -44,6 +44,9 @@ The internal time kept within the fish's JSON data is reset before the send
 to a remote node, since it is assumed that there is no clock synchronization
 in-place.
 
+Running CloudI with the provided configurations on the 4 Odroid-C1s with a
+Netgear GS108 Gigabit Switch consumes a total of 14 watts.
+
 Example
 -------
 
