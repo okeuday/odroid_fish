@@ -40,7 +40,7 @@
 #
 
 import sys
-sys.path.append('/home/odroid/installed/lib/cloudi-1.4.0/api/python/')
+sys.path.append('/home/odroid/installed/lib/cloudi-1.5.0/api/python/')
 
 import threading, types, traceback
 from cloudi import API, terminate_exception
