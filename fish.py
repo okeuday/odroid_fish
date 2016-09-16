@@ -4,7 +4,7 @@
 #
 # BSD LICENSE
 # 
-# Copyright (c) 2015, Michael Truog <mjtruog at gmail dot com>
+# Copyright (c) 2015-2016, Michael Truog <mjtruog at gmail dot com>
 # All rights reserved.
 # 
 # Redistribution and use in source and binary forms, with or without
@@ -40,7 +40,7 @@
 #
 
 import sys
-sys.path.append('/home/odroid/installed/lib/cloudi-1.5.1/api/python/')
+sys.path.append('/home/odroid/installed/lib/cloudi-1.5.3/api/python/')
 
 import threading, types, traceback
 from cloudi import API, terminate_exception
