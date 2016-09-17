@@ -52,6 +52,30 @@ Example
 
 ![](https://raw.githubusercontent.com/okeuday/odroid_fish/master/fishbowl.gif)
 
+Install (Node 0)
+----------------
+
+    cd ~
+    mkdir src
+    cd src
+    git clone https://github.com/CloudI/CloudI.git
+    cd CloudI/src
+    ./autogen.sh && ./configure --with-cxx-backtrace --with-boost-libdir=/usr/lib/arm-linux-gnueabihf/ && ./make_dev
+    sudo ./make_dev install
+    cd ../../
+    git clone https://github.com/hardkernel/wiringPi.git
+    cd wiringPi
+    ./build
+    cd ..
+    git clone https://github.com/okeuday/odroid_display.git
+    cd odroid_display/src
+    make
+    cd ../../
+    git clone https://github.com/okeuday/odroid_fish.git
+    sudo mv -f /usr/local/etc/cloudi/cloudi.conf /usr/local/etc/cloudi/cloudi.conf.old
+    sudo cp -f odroid_fish/odroid0_cloudi.conf /usr/local/etc/cloudi/cloudi.conf
+    sudo cloudi start
+
 Author
 ------
 
