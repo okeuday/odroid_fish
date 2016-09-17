@@ -74,6 +74,8 @@ Install (Node 0)
     git clone https://github.com/okeuday/odroid_fish.git
     sudo mv -f /usr/local/etc/cloudi/cloudi.conf /usr/local/etc/cloudi/cloudi.conf.old
     sudo cp -f odroid_fish/odroid0_cloudi.conf /usr/local/etc/cloudi/cloudi.conf
+    # make sure /etc/hostname and /etc/hosts allow the nodes to find each other
+    # (i.e., change "odroid" to "odroid0" and add IP addresses for 1-3)
     sudo cloudi start
 
 Author
