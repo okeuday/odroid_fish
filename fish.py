@@ -4,7 +4,7 @@
 #
 # MIT License
 #
-# Copyright (c) 2015-2017 Michael Truog <mjtruog at gmail dot com>
+# Copyright (c) 2015-2018 Michael Truog <mjtruog at gmail dot com>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -26,7 +26,7 @@
 #
 
 import sys
-sys.path.append('/usr/local/lib/cloudi-1.7.2/api/python/')
+sys.path.append('/usr/local/lib/cloudi-1.7.3/api/python/')
 
 import threading, types, traceback
 from cloudi import API, terminate_exception
