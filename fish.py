@@ -26,7 +26,7 @@
 #
 
 import sys
-sys.path.append('/usr/local/lib/cloudi-1.7.4/api/python/')
+sys.path.append('/usr/local/lib/cloudi-1.7.5/api/python/')
 
 import threading, types, traceback
 from cloudi import API, terminate_exception
