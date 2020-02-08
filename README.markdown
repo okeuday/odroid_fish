@@ -88,6 +88,6 @@ License
 
 MIT License
 
-Inspiration
------------
+Thematic Inspiration
+--------------------
 [![Find The Fish (1983)](http://img.youtube.com/vi/UGBZnfB46es/0.jpg)](https://www.youtube.com/watch?v=UGBZnfB46es "Find The Fish (1983)")
