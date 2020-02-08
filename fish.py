@@ -51,9 +51,9 @@ class LakeState(object):
 
     @staticmethod
     def set_position(prefix):
-        path = prefix.split(b'/')
+        path = prefix.split('/')
         assert len(path) == 5 # '/odroid/fish/#/'
-        assert b'/'.join(path[0:3]) == b'/odroid/fish'
+        assert '/'.join(path[0:3]) == '/odroid/fish'
         # positioning is based on 4 numbers:
         # X(max)                  X/Y (min)
         #           2        0
@@ -64,7 +64,7 @@ class LakeState(object):
 
     @staticmethod
     def prefix(position):
-        return b'/odroid/fish/%d/' % position
+        return '/odroid/fish/%d/' % position
 
     @staticmethod
     def x_boundary_min():
@@ -267,7 +267,7 @@ class FishState(object):
         self.__data = data_json['fish']
 
     def __str__(self):
-        return json.dumps({'fish': self.__data}).encode('utf-8')
+        return json.dumps({'fish': self.__data})
 
     def tick(self, timeout):
         # move and render a fish in a lake
@@ -285,7 +285,7 @@ class FishState(object):
             self.__data['move_start'] = now
             return LakeState.position
         move_count = self.__data['move_count']
-        count = (elapsed / self.__data['move_rate']) - move_count
+        count = (elapsed // self.__data['move_rate']) - move_count
         if count <= 0:
             time.sleep(0.1)
             return LakeState.position
@@ -436,7 +436,7 @@ class HatcheryState(object):
         self.__data = data_json['hatchery']
 
     def __str__(self):
-        return json.dumps({'hatchery': self.__data}).encode('utf-8')
+        return json.dumps({'hatchery': self.__data})
 
     def tick(self, api):
         # hatch new fish (1 fish is 1 CloudI service request)
@@ -448,14 +448,15 @@ class HatcheryState(object):
             count = 0
         else:
             hatch_count = self.__data['hatch_count']
-            count = (hatch_elapsed / HatcheryState.hatch_rate) - hatch_count
+            count = (hatch_elapsed // HatcheryState.hatch_rate) - hatch_count
             if count > 0:
                 self.__data['hatch_count'] = hatch_count + count
             else:
                 count = 0
         for _ in range(count):
             api.send_async(
-                api.prefix() + 'lake', str(FishState()),
+                api.prefix() + 'lake',
+                str(FishState()).encode('utf-8'),
                 timeout=HatcheryState.__fish_timeout(),
             )
         elapsed = default_timer() - now
@@ -479,24 +480,24 @@ class Task(threading.Thread):
             LakeState.set_position(self.__api.prefix())
             if self.__thread_index == 0:
                 self.__api.send_async(
-                    self.__api.prefix() + b'display',
+                    self.__api.prefix() + 'display',
                     b'\xff\0\0' +
                     b'                ' +
                     b'                '
                 )
             if self.__thread_index == 1 or self.__thread_index == 2:
-                self.__api.subscribe(b'view', self.__view)
+                self.__api.subscribe('view', self.__view)
             elif self.__thread_index == 3 or self.__thread_index == 4:
-                self.__api.subscribe(b'hatchery', self.__hatchery)
+                self.__api.subscribe('hatchery', self.__hatchery)
             else:
-                self.__api.subscribe(b'lake', self.__lake)
+                self.__api.subscribe('lake', self.__lake)
             if self.__thread_index == 0:
                 self.__api.send_async(
-                    self.__api.prefix() + b'view', b'',
+                    self.__api.prefix() + 'view', b'',
                 )
                 self.__api.send_async(
-                    self.__api.prefix() + b'hatchery',
-                    bytes(str(HatcheryState()), 'utf-8'),
+                    self.__api.prefix() + 'hatchery',
+                    str(HatcheryState()).encode('utf-8'),
                 )
 
             result = self.__api.poll()
@@ -510,10 +511,11 @@ class Task(threading.Thread):
     def __hatchery(self, _command, _name, _pattern, _request_info, request,
                    _timeout, _priority, _trans_id, _pid):
         # pylint: disable=too-many-arguments
-        state = HatcheryState(request)
+        state = HatcheryState(request.decode('utf-8'))
         state.tick(self.__api)
         self.__api.send_async(
-            self.__api.prefix() + b'hatchery', bytes(str(state), 'utf-8'),
+            self.__api.prefix() + 'hatchery',
+            str(state).encode('utf-8'),
         )
 
     def __view(self, _command, _name, _pattern, _request_info, _request,
@@ -521,19 +523,19 @@ class Task(threading.Thread):
         # pylint: disable=too-many-arguments
         LakeState.tick(self.__api)
         self.__api.send_async(
-            self.__api.prefix() + b'view', b'',
+            self.__api.prefix() + 'view', b'',
         )
 
     def __lake(self, command, _name, _pattern, request_info, request,
                timeout, priority, trans_id, pid):
         # pylint: disable=too-many-arguments
-        state = FishState(request)
+        state = FishState(request.decode('utf-8'))
         position = state.tick(timeout)
         if position is None:
             return
         self.__api.forward_(
-            command, LakeState.prefix(position) + b'lake', request_info,
-            bytes(str(state), 'utf-8'), timeout, priority, trans_id, pid
+            command, LakeState.prefix(position) + 'lake', request_info,
+            str(state).encode('utf-8'), timeout, priority, trans_id, pid,
         )
 
 if __name__ == '__main__':
