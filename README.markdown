@@ -60,7 +60,7 @@ Install (Node 0)
     cd src
     git clone https://github.com/CloudI/CloudI.git
     cd CloudI/src
-    ./autogen.sh && ./configure --with-cxx-backtrace --with-boost-libdir=/usr/lib/arm-linux-gnueabihf/ && ./make_dev
+    ./autogen.sh && CLOUDI_ARG_NODE_NAME_SHORT=odroid CLOUDI_ARG_NODE_COOKIE=odroid ./configure --with-cxx-backtrace --with-boost-libdir=/usr/lib/arm-linux-gnueabihf/ && ./make_dev
     sudo ./make_dev install
     cd ../../
     git clone https://github.com/hardkernel/wiringPi.git
