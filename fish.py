@@ -29,7 +29,7 @@ import sys
 sys.path.append('/usr/local/lib/cloudi-1.8.0/api/python/')
 
 import threading, types, traceback
-from cloudi import API, terminate_exception
+from cloudi import API, TerminateException
 from timeit import default_timer
 import json, struct, time, random
 
@@ -485,7 +485,7 @@ class Task(threading.Thread):
 
             result = self.__api.poll()
             assert result == False
-        except terminate_exception:
+        except TerminateException:
             pass
         except:
             traceback.print_exc(file=sys.stderr)
