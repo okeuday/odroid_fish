@@ -4,7 +4,7 @@
 #
 # MIT License
 #
-# Copyright (c) 2015-2020 Michael Truog <mjtruog at protonmail dot com>
+# Copyright (c) 2015-2021 Michael Truog <mjtruog at protonmail dot com>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -469,14 +469,15 @@ class HatcheryState(object):
                               HatcheryState.hatch_lifespan_max) * 1000
 
 class Task(threading.Thread):
-    def __init__(self, i, api):
+    def __init__(self, thread_index):
         threading.Thread.__init__(self)
-        self.__thread_index = i
-        self.__api = api
+        self.__api = None
+        self.__thread_index = thread_index
 
     def run(self):
         # pylint: disable=bare-except
         try:
+            self.__api = API(self.__thread_index)
             LakeState.set_position(self.__api.prefix())
             if self.__thread_index == 0:
                 self.__api.send_async(
@@ -542,7 +543,8 @@ if __name__ == '__main__':
     thread_count = API.thread_count()
     assert thread_count >= 1
 
-    threads = [Task(i, API(i)) for i in range(thread_count)]
+    threads = [Task(thread_index)
+               for thread_index in range(thread_count)]
     for t in threads:
         t.start()
     for t in threads:
