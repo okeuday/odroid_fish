@@ -4,7 +4,7 @@
 #
 # MIT License
 #
-# Copyright (c) 2015-2021 Michael Truog <mjtruog at protonmail dot com>
+# Copyright (c) 2015-2022 Michael Truog <mjtruog at protonmail dot com>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -28,7 +28,7 @@
 # pylint: disable=wrong-import-position
 # pylint: disable=wrong-import-order
 import sys
-sys.path.append('/usr/local/lib/cloudi-2.0.4/api/python/')
+sys.path.append('/usr/local/lib/cloudi-2.0.5/api/python/')
 from cloudi import API, TerminateException
 import threading
 import traceback
