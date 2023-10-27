@@ -28,7 +28,7 @@
 # pylint: disable=wrong-import-position
 # pylint: disable=wrong-import-order
 import sys
-sys.path.append('/usr/local/lib/cloudi-2.0.6/api/python/')
+sys.path.append('/usr/local/lib/cloudi-2.0.7/api/python/')
 from cloudi import API, TerminateException
 import threading
 import traceback
